@@ -194,7 +194,7 @@ namespace Emby.Server.Implementations.LiveTv.EmbyTV
                 inputTempFile,
                 targetFile.Replace("\"", "\\\"", StringComparison.Ordinal), // Escape quotes in filename
                 videoArgs,
-                GetAudioArgs(mediaSource),
+                GetAudioArgs(),
                 subtitleArgs,
                 outputParam,
                 threads);
@@ -202,7 +202,7 @@ namespace Emby.Server.Implementations.LiveTv.EmbyTV
             return inputModifier + " " + commandLineArgs;
         }
 
-        private static string GetAudioArgs(MediaSourceInfo mediaSource)
+        private static string GetAudioArgs()
         {
             return "-codec:a:0 copy";
 

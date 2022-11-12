@@ -83,6 +83,7 @@ namespace Emby.Dlna.PlayTo
             if (!info.Headers.TryGetValue("USN", out string usn))
             {
                 usn = string.Empty;
+
             }
 
             if (!info.Headers.TryGetValue("NT", out string nt))

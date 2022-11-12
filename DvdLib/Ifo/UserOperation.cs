@@ -5,7 +5,7 @@ using System;
 namespace DvdLib.Ifo
 {
     [Flags]
-    public enum UserOperations
+    public enum UserOperation
     {
         None = 0,
         TitleOrTimePlay = 1,

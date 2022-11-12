@@ -7,15 +7,15 @@ namespace Emby.Naming.Video
     /// <summary>
     /// Object holding list of files paths with additional information.
     /// </summary>
-    public class FileS
+    public class FileStack
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="FileS"/> class.
+        /// Initializes a new instance of the <see cref="FileStack"/> class.
         /// </summary>
         /// <param name="name">The stack name.</param>
         /// <param name="isDirectory">Whether the stack files are directories.</param>
         /// <param name="files">The stack files.</param>
-        public FileS(string name, bool isDirectory, IReadOnlyList<string> files)
+        public FileStack(string name, bool isDirectory, IReadOnlyList<string> files)
         {
             Name = name;
             IsDirectoryStack = isDirectory;

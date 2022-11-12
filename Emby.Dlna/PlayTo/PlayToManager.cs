@@ -41,8 +41,8 @@ namespace Emby.Dlna.PlayTo
         private readonly IMediaSourceManager _mediaSourceManager;
         private readonly IMediaEncoder _mediaEncoder;
 
+        private readonly SemaphoreSlim _sessionLock = new SemaphoreSlim(1, 1);
         private bool _disposed;
-        private SemaphoreSlim _sessionLock = new SemaphoreSlim(1, 1);
         private CancellationTokenSource _disposeCancellationTokenSource = new CancellationTokenSource();
 
         public PlayToManager(ILogger logger, ISessionManager sessionManager, ILibraryManager libraryManager, IUserManager userManager, IDlnaManager dlnaManager, IServerApplicationHost appHost, IImageProcessor imageProcessor, IDeviceDiscovery deviceDiscovery, IHttpClientFactory httpClientFactory, IUserDataManager userDataManager, ILocalizationManager localization, IMediaSourceManager mediaSourceManager, IMediaEncoder mediaEncoder)
@@ -110,9 +110,6 @@ namespace Emby.Dlna.PlayTo
                 }
 
                 await AddDevice(info, cancellationToken).ConfigureAwait(false);
-            }
-            catch (OperationCanceledException)
-            {
             }
             catch (Exception ex)
             {

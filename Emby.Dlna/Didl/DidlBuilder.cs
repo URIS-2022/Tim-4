@@ -107,6 +107,7 @@ namespace Emby.Dlna.Didl
                     writer.WriteAttributeString("xmlns", "dlna", null, NsDlna);
                     writer.WriteAttributeString("xmlns", "upnp", null, NsUpnp);
 
+
                     WriteXmlRootAttributes(_profile, writer);
 
                     WriteItemElement(writer, item, user, context, null, deviceId, filter, streamInfo);

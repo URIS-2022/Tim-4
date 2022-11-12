@@ -56,6 +56,7 @@ namespace Emby.Dlna.PlayTo
             _userManager = userManager;
             _dlnaManager = dlnaManager;
             _appHost = appHost;
+
             _imageProcessor = imageProcessor;
             _deviceDiscovery = deviceDiscovery;
             _httpClientFactory = httpClientFactory;

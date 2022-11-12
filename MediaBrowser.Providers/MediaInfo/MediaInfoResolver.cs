@@ -143,7 +143,6 @@ namespace MediaBrowser.Providers.MediaInfo
                     {
                         _logger.LogError(ex, "Error getting external streams from {Path}", pathInfo.Path);
 
-                        continue;
                     }
                 }
             }

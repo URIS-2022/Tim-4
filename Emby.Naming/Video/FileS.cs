@@ -10,7 +10,7 @@ namespace Emby.Naming.Video
     public class FileS
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="FileStack"/> class.
+        /// Initializes a new instance of the <see cref="FileS"/> class.
         /// </summary>
         /// <param name="name">The stack name.</param>
         /// <param name="isDirectory">Whether the stack files are directories.</param>

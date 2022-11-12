@@ -9,7 +9,7 @@ using MediaBrowser.Model.IO;
 namespace Emby.Naming.Video
 {
     /// <summary>
-    /// Resolve <see cref="FileStack"/> from list of paths.
+    /// Resolve <see cref="FileS"/> from list of paths.
     /// </summary>
     public static class StackResolver
     {
@@ -19,7 +19,7 @@ namespace Emby.Naming.Video
         /// <param name="files">List of paths.</param>
         /// <param name="namingOptions">The naming options.</param>
         /// <returns>Enumerable <see cref="FileStack"/> of directories.</returns>
-        public static IEnumerable<FileStack> ResolveDirectories(IEnumerable<string> files, NamingOptions namingOptions)
+        public static IEnumerable<FileS> ResolveDirectories(IEnumerable<string> files, NamingOptions namingOptions)
         {
             return Resolve(files.Select(i => new FileSystemMetadata { FullName = i, IsDirectory = true }), namingOptions);
         }
@@ -29,7 +29,7 @@ namespace Emby.Naming.Video
         /// </summary>
         /// <param name="files">List of paths.</param>
         /// <param name="namingOptions">The naming options.</param>
-        /// <returns>Enumerable <see cref="FileStack"/> of files.</returns>
+        /// <returns>Enumerable <see cref="FileS"/> of files.</returns>
         public static IEnumerable<FileStack> ResolveFiles(IEnumerable<string> files, NamingOptions namingOptions)
         {
             return Resolve(files.Select(i => new FileSystemMetadata { FullName = i, IsDirectory = false }), namingOptions);

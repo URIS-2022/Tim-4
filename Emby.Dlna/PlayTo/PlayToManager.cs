@@ -89,6 +89,7 @@ namespace Emby.Dlna.PlayTo
             if (!info.Headers.TryGetValue("NT", out string nt))
             {
                 nt = string.Empty;
+
             }
 
             // It has to report that it's a media renderer

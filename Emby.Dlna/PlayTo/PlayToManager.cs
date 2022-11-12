@@ -42,6 +42,7 @@ namespace Emby.Dlna.PlayTo
         private readonly IMediaEncoder _mediaEncoder;
 
         private readonly SemaphoreSlim _sessionLock = new SemaphoreSlim(1, 1);
+
         private bool _disposed;
         private CancellationTokenSource _disposeCancellationTokenSource = new CancellationTokenSource();
 

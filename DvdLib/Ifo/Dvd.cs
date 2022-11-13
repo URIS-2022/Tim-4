@@ -10,10 +10,10 @@ namespace DvdLib.Ifo
 {
     public class Dvd
     {
-        private readonly ushort _titleSetCount;
+        public readonly ushort _titleSetCount;
         public readonly List<Title> Titles;
 
-        private ushort _titleCount;
+        public ushort _titleCount;
         public readonly Dictionary<ushort, string> VTSPaths = new Dictionary<ushort, string>();
         public Dvd(string path)
         {
@@ -63,7 +63,7 @@ namespace DvdLib.Ifo
             }
         }
 
-        private void ReadTT_SRPT(BinaryReader read)
+        public void ReadTT_SRPT(BinaryReader read)
         {
             _titleCount = read.ReadUInt16();
             read.BaseStream.Seek(6, SeekOrigin.Current);
@@ -75,7 +75,7 @@ namespace DvdLib.Ifo
             }
         }
 
-        private void ReadVTS(ushort vtsNum, IReadOnlyList<FileInfo> allFiles)
+        public void ReadVTS(ushort vtsNum, IReadOnlyList<FileInfo> allFiles)
         {
             var filename = string.Format(CultureInfo.InvariantCulture, "VTS_{0:00}_0.IFO", vtsNum);
 
@@ -90,7 +90,7 @@ namespace DvdLib.Ifo
             ReadVTS(vtsNum, vtsPath.FullName);
         }
 
-        private void ReadVTS(ushort vtsNum, string vtsPath)
+        public void ReadVTS(ushort vtsNum, string vtsPath)
         {
             VTSPaths[vtsNum] = vtsPath;
 

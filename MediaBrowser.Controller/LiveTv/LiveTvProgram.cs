@@ -18,7 +18,7 @@ using MediaBrowser.Model.Providers;
 
 namespace MediaBrowser.Controller.LiveTv
 {
-    public class LiveTvProgram : BaseItem, IHasLookupInfo<ItemLookupInfo>, IHasStartDate, IHasProgramAttributes
+    public class LiveTvProgram : BaseItem, IHasStartDate, IHasProgramAttributes
     {
         private static string EmbyServiceName = "Emby";
 

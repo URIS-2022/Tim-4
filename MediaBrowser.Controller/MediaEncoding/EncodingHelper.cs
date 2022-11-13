@@ -691,7 +691,6 @@ namespace MediaBrowser.Controller.MediaEncoding
                 var reqW = state.BaseRequest.Width;
                 var reqH = state.BaseRequest.Height;
                 var reqMaxW = state.BaseRequest.MaxWidth;
-                var reqMaxH = state.BaseRequest.MaxHeight;
 
                 // setup a relative small canvas_size for overlay_qsv/vaapi to reduce transfer overhead
                 var (overlayW, overlayH) = GetFixedOutputSize(inW, inH, reqW, reqH, reqMaxW, 1080);

@@ -343,10 +343,8 @@ namespace Emby.Dlna.Didl
                 writer.WriteAttributeString("nrAudioChannels", targetChannels.Value.ToString(CultureInfo.InvariantCulture));
             }
 
-            if (filter.Contains("res@resolution"))
+            if (filter.Contains("res@resolution") && targetWidth.HasValue && targetHeight.HasValue)
             {
-                if (targetWidth.HasValue && targetHeight.HasValue)
-                {
                     writer.WriteAttributeString(
                         "resolution",
                         string.Format(
@@ -354,7 +352,6 @@ namespace Emby.Dlna.Didl
                             "{0}x{1}",
                             targetWidth.Value,
                             targetHeight.Value));
-                }
             }
 
             if (targetSampleRate.HasValue)

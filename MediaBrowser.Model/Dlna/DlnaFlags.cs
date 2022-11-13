@@ -5,7 +5,7 @@ using System;
 namespace MediaBrowser.Model.Dlna
 {
     [Flags]
-    public enum DlnaFlags : ulong
+    public enum Dlna : ulong
     {
         /*! <i>Background</i> transfer mode.
             For use with upload and download transfers to and from the server.

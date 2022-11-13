@@ -23,9 +23,9 @@ namespace MediaBrowser.Model.Dlna
             // 0 = native, 1 = transcoded
             var orgCi = isDirectStream ? ";DLNA.ORG_CI=0" : ";DLNA.ORG_CI=1";
 
-            var flagValue = DlnaFlags.BackgroundTransferMode |
-                            DlnaFlags.InteractiveTransferMode |
-                            DlnaFlags.DlnaV15;
+            var flagValue = Dlna.BackgroundTransferMode |
+                            Dlna.InteractiveTransferMode |
+                            Dlna.DlnaV15;
 
             string dlnaflags = string.Format(
                 CultureInfo.InvariantCulture,
@@ -73,10 +73,10 @@ namespace MediaBrowser.Model.Dlna
             // 0 = native, 1 = transcoded
             string orgCi = isDirectStream ? ";DLNA.ORG_CI=0" : ";DLNA.ORG_CI=1";
 
-            var flagValue = DlnaFlags.StreamingTransferMode |
-                            DlnaFlags.BackgroundTransferMode |
-                            DlnaFlags.InteractiveTransferMode |
-                            DlnaFlags.DlnaV15;
+            var flagValue = Dlna.StreamingTransferMode |
+                            Dlna.BackgroundTransferMode |
+                            Dlna.InteractiveTransferMode |
+                            Dlna.DlnaV15;
 
             // if (isDirectStream)
             // {
@@ -147,14 +147,14 @@ namespace MediaBrowser.Model.Dlna
             // 0 = native, 1 = transcoded
             string orgCi = isDirectStream ? ";DLNA.ORG_CI=0" : ";DLNA.ORG_CI=1";
 
-            var flagValue = DlnaFlags.StreamingTransferMode |
-                            DlnaFlags.BackgroundTransferMode |
-                            DlnaFlags.InteractiveTransferMode |
-                            DlnaFlags.DlnaV15;
+            var flagValue = Dlna.StreamingTransferMode |
+                            Dlna.BackgroundTransferMode |
+                            Dlna.InteractiveTransferMode |
+                            Dlna.DlnaV15;
 
             if (isDirectStream)
             {
-                flagValue |= DlnaFlags.ByteBasedSeek;
+                flagValue |= Dlna.ByteBasedSeek;
             }
 
             // Time based seek is currently disabled when streaming. On LG CX3 adding DlnaFlags.TimeBasedSeek and orgPn causes the DLNA playback to fail (format not supported). Further investigations are needed before enabling the remaining code paths.

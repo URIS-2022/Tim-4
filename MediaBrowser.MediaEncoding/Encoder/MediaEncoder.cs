@@ -932,7 +932,7 @@ namespace MediaBrowser.MediaEncoding.Encoder
             return true;
         }
 
-        private class ProcessWrapper : IDisposable
+        private sealed class ProcessWrapper : IDisposable
         {
             private readonly MediaEncoder _mediaEncoder;
 

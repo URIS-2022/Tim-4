@@ -6,7 +6,7 @@ namespace MediaBrowser.Model.Dlna
 {
     public static class DlnaMaps
     {
-        public static string FlagsToString(DlnaFlags flags)
+        public static string FlagsToString(Dlna flags)
         {
             return string.Format(CultureInfo.InvariantCulture, "{0:X8}{1:D24}", (ulong)flags, 0);
         }

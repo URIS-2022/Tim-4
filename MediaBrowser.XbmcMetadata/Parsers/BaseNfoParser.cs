@@ -1258,7 +1258,6 @@ namespace MediaBrowser.XbmcMetadata.Parsers
                                     {
                                         PersonType.Composer => PersonType.Composer,
                                         PersonType.Conductor => PersonType.Conductor,
-                                        PersonType.Director => PersonType.Director,
                                         PersonType.Lyricist => PersonType.Lyricist,
                                         PersonType.Producer => PersonType.Producer,
                                         PersonType.Writer => PersonType.Writer,

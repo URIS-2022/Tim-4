@@ -323,13 +323,6 @@ namespace Jellyfin.Data.Entities
         /// </summary>
         public virtual ICollection<ItemDisplayPreferences> ItemDisplayPreferences { get; private set; }
 
-        /*
-        /// <summary>
-        /// Gets the list of groups this user is a member of.
-        /// </summary>
-        public virtual ICollection<Group> Groups { get; private set; }
-        */
-
         /// <summary>
         /// Gets the list of permissions this user has.
         /// </summary>

@@ -36,11 +36,9 @@ namespace Emby.Notifications
 
         private readonly object _libraryChangedSyncLock = new object();
         private readonly List<BaseItem> _itemsAdded = new List<BaseItem>();
+        private readonly string[] _coreNotificationTypes;
 
         private Timer? _libraryUpdateTimer;
-
-        private string[] _coreNotificationTypes;
-
         private bool _disposed = false;
 
         /// <summary>

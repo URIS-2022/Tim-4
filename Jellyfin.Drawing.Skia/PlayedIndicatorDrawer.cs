@@ -35,7 +35,6 @@ namespace Jellyfin.Drawing.Skia
             paint.IsAntialias = true;
 
             // or:
-            // var emojiChar = 0x1F680;
             const string Text = "✔️";
             var emojiChar = StringUtilities.GetUnicodeCharacterCode(Text, SKTextEncoding.Utf32);
 

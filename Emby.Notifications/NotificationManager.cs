@@ -95,6 +95,36 @@ namespace Emby.Notifications
             return Task.WhenAll(tasks);
         }
 
+        private async Task SendNotification(
+           NotificationRequest request,
+           INotificationService service,
+           string title,
+           string description,
+           User user,
+           CancellationToken cancellationToken)
+        {
+            var notification = new UserNotification
+            {
+                Date = request.Date,
+                Description = description,
+                Level = request.Level,
+                Name = title,
+                Url = request.Url,
+                User = user
+            };
+
+            _logger.LogDebug("Sending notification via {0} to user {1}", service.Name, user.Username);
+
+            try
+            {
+                await service.SendNotification(notification, cancellationToken).ConfigureAwait(false);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error sending notification to {0}", service.Name);
+            }
+        }
+
         private IEnumerable<Guid> GetUserIds(NotificationRequest request, NotificationOption? options)
         {
             if (request.SendToUserMode.HasValue)
@@ -123,36 +153,6 @@ namespace Emby.Notifications
             }
 
             return request.UserIds;
-        }
-
-        private async Task SendNotification(
-            NotificationRequest request,
-            INotificationService service,
-            string title,
-            string description,
-            User user,
-            CancellationToken cancellationToken)
-        {
-            var notification = new UserNotification
-            {
-                Date = request.Date,
-                Description = description,
-                Level = request.Level,
-                Name = title,
-                Url = request.Url,
-                User = user
-            };
-
-            _logger.LogDebug("Sending notification via {0} to user {1}", service.Name, user.Username);
-
-            try
-            {
-                await service.SendNotification(notification, cancellationToken).ConfigureAwait(false);
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "Error sending notification to {0}", service.Name);
-            }
         }
 
         private bool IsEnabledForUser(INotificationService service, User user)

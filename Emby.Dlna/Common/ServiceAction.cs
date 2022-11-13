@@ -13,7 +13,7 @@ namespace Emby.Dlna.Common
         /// </summary>
         public ServiceAction()
         {
-            ArgumentList = new Collection<T>();
+            ArgumentList = new Collection<string>();
         }
 
         /// <summary>
@@ -24,7 +24,7 @@ namespace Emby.Dlna.Common
         /// <summary>
         /// Gets the ArgumentList.
         /// </summary>
-        public Collection<T> ArgumentList { get; }
+        public Collection<string> ArgumentList { get; }
 
         /// <inheritdoc />
         public override string ToString() => Name;

@@ -96,7 +96,7 @@ internal static class EbmlReaderExtensions
 
             reader.LeaveContainer();
 
-            if (tracksPosition.HasValue && cuesPosition.HasValue && infoPosition.HasValue)
+            if (tracksPosition.HasValue && cuesPosition.HasValue)
             {
                 break;
             }

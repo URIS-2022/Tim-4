@@ -2,6 +2,7 @@ using System;
 using System.IO;
 using Emby.Naming.Common;
 using Jellyfin.Extensions;
+using System.Linq;
 
 namespace Emby.Naming.Video
 {
@@ -35,14 +36,12 @@ namespace Emby.Naming.Video
 
             path = Path.GetFileNameWithoutExtension(path);
             var token = Path.GetExtension(path).TrimStart('.');
-
-            foreach (var rule in options.StubTypes)
+            foreach (var rule in from rule in options.StubTypes
+                                 where string.Equals(rule.Token, token, StringComparison.OrdinalIgnoreCase)
+                                 select rule)
             {
-                if (string.Equals(rule.Token, token, StringComparison.OrdinalIgnoreCase))
-                {
-                    stubType = rule.StubType;
-                    return true;
-                }
+                stubType = rule.StubType;
+                return true;
             }
 
             return true;

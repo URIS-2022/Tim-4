@@ -709,12 +709,12 @@ namespace MediaBrowser.Controller.Entities
         {
             get
             {
-                if (this is BasePluginFolder || this is Channel)
+                if (this is BasePluginFolder || GetParent() is Channel)
                 {
                     return true;
                 }
 
-                if (this is IHasCollectionType view)
+                if (GetParent() is IHasCollectionType view)
                 {
                     if (string.Equals(view.CollectionType, CollectionType.LiveTv, StringComparison.OrdinalIgnoreCase))
                     {

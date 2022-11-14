@@ -1,6 +1,7 @@
 #pragma warning disable CS1591
 
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Net;
 using System.Threading.Tasks;
@@ -263,6 +264,7 @@ namespace Jellyfin.Server.Implementations.Security
             // There should be at least two parts
             if (firstSpace == -1)
             {
+
                 return null;
             }
 

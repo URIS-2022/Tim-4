@@ -714,12 +714,9 @@ namespace MediaBrowser.Controller.Entities
                     return true;
                 }
 
-                if (GetParent() is IHasCollectionType view)
+                if (GetParent() is IHasCollectionType view && string.Equals(view.CollectionType, CollectionType.LiveTv, StringComparison.OrdinalIgnoreCase))
                 {
-                    if (string.Equals(view.CollectionType, CollectionType.LiveTv, StringComparison.OrdinalIgnoreCase))
-                    {
-                        return true;
-                    }
+                    return true;
                 }
 
                 if (GetParent() is AggregateFolder)
@@ -777,16 +774,6 @@ namespace MediaBrowser.Controller.Entities
             return Id.ToString("N", CultureInfo.InvariantCulture);
         }
 
-        public virtual bool CanDelete()
-        {
-            if (SourceType == SourceType.Channel)
-            {
-                return ChannelManager.CanDelete(this);
-            }
-
-            return IsFileProtocol;
-        }
-
         public virtual bool IsAuthorizedToDelete(User user, List<Folder> allCollectionFolders)
         {
             if (user.HasPermission(PermissionKind.EnableContentDeletion))
@@ -832,6 +819,15 @@ namespace MediaBrowser.Controller.Entities
             var allCollectionFolders = LibraryManager.GetUserRootFolder().Children.OfType<Folder>().ToList();
 
             return CanDelete(user, allCollectionFolders);
+        }
+        public virtual bool CanDelete()
+        {
+            if (SourceType == SourceType.Channel)
+            {
+                return ChannelManager.CanDelete(this);
+            }
+
+            return IsFileProtocol;
         }
 
         public virtual bool CanDownload()
@@ -957,7 +953,6 @@ namespace MediaBrowser.Controller.Entities
 
             AppendChunk(builder, isDigitChunk, name.AsSpan(chunkStart));
 
-            // logger.LogDebug("ModifySortChunks Start: {0} End: {1}", name, builder.ToString());
             return builder.ToString().RemoveDiacritics();
         }
 

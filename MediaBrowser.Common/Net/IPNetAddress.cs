@@ -114,26 +114,23 @@ namespace MediaBrowser.Common.Net
                 // Is it a network?
                 string[] tokens = addr.Split('/');
 
-                if (tokens.Length == 2)
+                if (tokens.Length == 2 && IPAddress.TryParse(tokens[0], out res))
                 {
                     tokens[0] = tokens[0].TrimEnd();
                     tokens[1] = tokens[1].TrimStart();
 
-                    if (IPAddress.TryParse(tokens[0], out res))
-                    {
                         // Is the subnet part a cidr?
-                        if (byte.TryParse(tokens[1], out byte cidr))
-                        {
-                            ip = new IPNetAddress(res, cidr);
-                            return true;
-                        }
+                    if (byte.TryParse(tokens[1], out byte cidr))
+                    {
+                        ip = new IPNetAddress(res, cidr);
+                        return true;
+                    }
 
                         // Is the subnet in x.y.a.b form?
-                        if (IPAddress.TryParse(tokens[1], out IPAddress? mask))
-                        {
-                            ip = new IPNetAddress(res, MaskToCidr(mask));
-                            return true;
-                        }
+                    if (IPAddress.TryParse(tokens[1], out IPAddress? mask))
+                    {
+                        ip = new IPNetAddress(res, MaskToCidr(mask));
+                        return true;
                     }
                 }
             }

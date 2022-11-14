@@ -45,7 +45,7 @@ namespace MediaBrowser.Controller.Entities
 
         public string[] LocalAlternateVersions { get; set; }
 
-        public LinkedChild[] LinkedAlternateVersions { get; set; }
+        public List<LinkedChild> LinkedAlternateVersions { get; set; }
 
         [JsonIgnore]
         public override bool SupportsPlayedStatus => true;

@@ -13,6 +13,7 @@ using MediaBrowser.Controller.Dto;
 using MediaBrowser.Controller.Providers;
 using MediaBrowser.Model.Querying;
 
+
 namespace MediaBrowser.Controller.Entities.TV
 {
     /// <summary>
@@ -101,6 +102,7 @@ namespace MediaBrowser.Controller.Entities.TV
             var list = base.GetUserDataKeys();
 
             var series = Series;
+
             if (series != null)
             {
                 var newList = series.GetUserDataKeys();

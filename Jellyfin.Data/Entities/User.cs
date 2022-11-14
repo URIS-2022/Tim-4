@@ -336,13 +336,6 @@ namespace Jellyfin.Data.Entities
         [ForeignKey("Permission_Permissions_Guid")]
         public virtual ICollection<Permission> Permissions { get; private set; }
 
-        /*
-        /// <summary>
-        /// Gets the list of provider mappings this user has.
-        /// </summary>
-        public virtual ICollection<ProviderMapping> ProviderMappings { get; private set; }
-        */
-
         /// <summary>
         /// Gets the list of preferences this user has.
         /// </summary>

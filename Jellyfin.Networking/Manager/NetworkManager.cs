@@ -281,32 +281,32 @@ namespace Jellyfin.Networking.Manager
                 {
                     return new Collection<IPObject>(_interfaceAddresses);
                 }
+            }
 
-                // No bind address and no exclusions, so listen on all interfaces.
-                Collection<IPObject> result = new Collection<IPObject>();
+            // No bind address and no exclusions, so listen on all interfaces.
+            Collection<IPObject> result = new Collection<IPObject>();
 
-                if (IsIP6Enabled && IsIP4Enabled)
+            if (IsIP6Enabled && IsIP4Enabled)
+            {
+                // Kestrel source code shows it uses Sockets.DualMode - so this also covers IPAddress.Any
+                result.AddItem(IPAddress.IPv6Any);
+                return result;
+            }
+            else if (IsIP4Enabled)
+            {
+                result.AddItem(IPAddress.Any);
+                return result;
+            }
+            else if (IsIP6Enabled)
+            {
+                // Cannot use IPv6Any as Kestrel will bind to IPv4 addresses.
+                foreach (var iface in _interfaceAddresses)
                 {
-                    // Kestrel source code shows it uses Sockets.DualMode - so this also covers IPAddress.Any
-                    result.AddItem(IPAddress.IPv6Any);
-                }
-                else if (IsIP4Enabled)
-                {
-                    result.AddItem(IPAddress.Any);
-                }
-                else if (IsIP6Enabled)
-                {
-                    // Cannot use IPv6Any as Kestrel will bind to IPv4 addresses.
-                    foreach (var iface in _interfaceAddresses)
+                    if (iface.AddressFamily == AddressFamily.InterNetworkV6)
                     {
-                        if (iface.AddressFamily == AddressFamily.InterNetworkV6)
-                        {
-                            result.AddItem(iface.Address);
-                        }
+                        result.AddItem(iface.Address);
                     }
                 }
-
-                return result;
             }
 
             // Remove any excluded bind interfaces.
@@ -1165,21 +1165,9 @@ namespace Jellyfin.Networking.Manager
             // Check for user override.
             foreach (var addr in _publishedServerUrls)
             {
-                // Remaining. Match anything.
-                if (addr.Key.Address.Equals(IPAddress.Broadcast))
+                // Remaining. Match anything or Match ip address.
+                if (addr.Key.Address.Equals(IPAddress.Broadcast) || addr.Key.Contains(source) || ((addr.Key.Address.Equals(IPAddress.Any) || addr.Key.Address.Equals(IPAddress.IPv6Any)) && isInExternalSubnet))
                 {
-                    bindPreference = addr.Value;
-                    break;
-                }
-                else if ((addr.Key.Address.Equals(IPAddress.Any) || addr.Key.Address.Equals(IPAddress.IPv6Any)) && isInExternalSubnet)
-                {
-                    // External.
-                    bindPreference = addr.Value;
-                    break;
-                }
-                else if (addr.Key.Contains(source))
-                {
-                    // Match ip address.
                     bindPreference = addr.Value;
                     break;
                 }

@@ -54,8 +54,6 @@ namespace Jellyfin.Data.Entities
             // Groups = new HashSet<Group>();
             Permissions = new HashSet<Permission>();
             Preferences = new HashSet<Preference>();
-            // ProviderMappings = new HashSet<ProviderMapping>();
-
             // Set default values
             Id = Guid.NewGuid();
             InvalidLoginAttemptCount = 0;

@@ -124,10 +124,8 @@ namespace MediaBrowser.Controller.Entities
             }
         }
 
-        private int GetSpecialItemsLimit()
-        {
-            return 50;
-        }
+
+        private int SpecialItemsLimit = 50;
 
         private QueryResult<BaseItem> GetMovieFolders(Folder parent, User user, InternalItemsQuery query)
         {
@@ -217,7 +215,7 @@ namespace MediaBrowser.Controller.Entities
             query.Recursive = true;
             query.Parent = parent;
             query.SetUser(user);
-            query.Limit = GetSpecialItemsLimit();
+            query.Limit = SpecialItemsLimit;
             query.IncludeItemTypes = new[] { BaseItemKind.Movie };
 
             return ConvertToResult(_libraryManager.GetItemList(query));
@@ -230,7 +228,7 @@ namespace MediaBrowser.Controller.Entities
             query.Recursive = true;
             query.Parent = parent;
             query.SetUser(user);
-            query.Limit = GetSpecialItemsLimit();
+            query.Limit = SpecialItemsLimit;
             query.IncludeItemTypes = new[] { BaseItemKind.Movie };
 
             return ConvertToResult(_libraryManager.GetItemList(query));
@@ -321,7 +319,7 @@ namespace MediaBrowser.Controller.Entities
             query.Recursive = true;
             query.Parent = parent;
             query.SetUser(user);
-            query.Limit = GetSpecialItemsLimit();
+            query.Limit = SpecialItemsLimit;
             query.IncludeItemTypes = new[] { BaseItemKind.Episode };
             query.IsVirtualItem = false;
 
@@ -352,7 +350,7 @@ namespace MediaBrowser.Controller.Entities
             query.Recursive = true;
             query.Parent = parent;
             query.SetUser(user);
-            query.Limit = GetSpecialItemsLimit();
+            query.Limit = SpecialItemsLimit;
             query.IncludeItemTypes = new[] { BaseItemKind.Episode };
 
             return ConvertToResult(_libraryManager.GetItemList(query));

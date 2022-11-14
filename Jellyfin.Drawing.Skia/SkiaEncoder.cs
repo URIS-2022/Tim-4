@@ -163,7 +163,7 @@ namespace Jellyfin.Drawing.Skia
             return BlurHashEncoder.Encode(xComp, yComp, path, 128, 128);
         }
 
-        private bool RequiresSpecialCharacterHack(string path)
+        private static bool RequiresSpecialCharacterHack(string path)
         {
             for (int i = 0; i < path.Length; i++)
             {

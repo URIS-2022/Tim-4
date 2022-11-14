@@ -3004,7 +3004,6 @@ namespace MediaBrowser.Controller.MediaEncoding
             var isSwEncoder = !isNvencEncoder;
             var isCuInCuOut = isNvDecoder && isNvencEncoder;
 
-            var doubleRateDeint = options.DeinterlaceDoubleRate && (state.VideoStream?.AverageFrameRate ?? 60) <= 30;
             var doDeintH264 = state.DeInterlace("h264", true) || state.DeInterlace("avc", true);
             var doDeintHevc = state.DeInterlace("h265", true) || state.DeInterlace("hevc", true);
             var doDeintH2645 = doDeintH264 || doDeintHevc;
@@ -4467,7 +4466,6 @@ namespace MediaBrowser.Controller.MediaEncoding
 
             var hasSubs = state.SubtitleStream != null && state.SubtitleDeliveryMethod == SubtitleDeliveryMethod.Encode;
             var hasTextSubs = hasSubs && state.SubtitleStream.IsTextSubtitleStream;
-            var hasGraphicalSubs = hasSubs && !state.SubtitleStream.IsTextSubtitleStream;
 
             List<string> mainFilters;
             List<string> subFilters;

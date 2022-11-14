@@ -445,7 +445,7 @@ namespace Emby.Drawing
                 .ToString("N", CultureInfo.InvariantCulture);
         }
 
-        private Task<(string Path, DateTime DateModified)> GetSupportedImage(string originalImagePath, DateTime dateModified)
+        private static Task<(string Path, DateTime DateModified)> GetSupportedImage(string originalImagePath, DateTime dateModified)
         {
             var inputFormat = Path.GetExtension(originalImagePath.AsSpan()).TrimStart('.').ToString();
 

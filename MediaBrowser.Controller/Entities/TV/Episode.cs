@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using System.Text;
 using System.Text.Json.Serialization;
 using Jellyfin.Data.Enums;
 using MediaBrowser.Controller.Providers;
@@ -166,6 +167,8 @@ namespace MediaBrowser.Controller.Entities.TV
 
                 var newList = seriesUserDataKeys.GetRange(0, take);
                 var suffix = ParentIndexNumber.Value.ToString("000", CultureInfo.InvariantCulture) + IndexNumber.Value.ToString("000", CultureInfo.InvariantCulture);
+
+
                 for (int i = 0; i < take; i++)
                 {
                     newList[i] = newList[i] + suffix;

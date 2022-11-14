@@ -45,12 +45,9 @@ namespace Emby.Naming.AudioBook
                     if (!result.Year.HasValue)
                     {
                         var value = match.Groups["year"];
-                        if (value.Success)
+                        if (value.Success && (int.TryParse(value.Value, NumberStyles.Integer, CultureInfo.InvariantCulture, out var intValue)))
                         {
-                            if (int.TryParse(value.Value, NumberStyles.Integer, CultureInfo.InvariantCulture, out var intValue))
-                            {
                                 result.Year = intValue;
-                            }
                         }
                     }
                 }

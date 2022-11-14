@@ -9,7 +9,7 @@ using MediaBrowser.Controller.Providers;
 
 namespace MediaBrowser.Controller.Entities
 {
-    public class AudioBook : Audio.Audio, IHasSeries, IHasLookupInfo<SongInfo>
+    public class AudioBook : Audio.Audio, IHasSeries
     {
         [JsonIgnore]
         public override bool SupportsPositionTicksResume => true;

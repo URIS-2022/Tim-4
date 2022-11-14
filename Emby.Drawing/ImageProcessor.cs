@@ -99,6 +99,14 @@ namespace Emby.Drawing
         public bool SupportsImageCollageCreation => _imageEncoder.SupportsImageCollageCreation;
 
         /// <inheritdoc />
+        public IReadOnlyCollection<ImageFormat> GetSupportedImageOutputFormats()
+            => _imageEncoder.SupportedOutputFormats;
+
+        /// <inheritdoc />
+        public bool SupportsTransparency(string path)
+            => _transparentImageTypes.Contains(Path.GetExtension(path));
+
+        /// <inheritdoc />
         public async Task ProcessImage(ImageProcessingOptions options, Stream toStream)
         {
             var file = await ProcessImage(options).ConfigureAwait(false);
@@ -107,14 +115,6 @@ namespace Emby.Drawing
                 await fileStream.CopyToAsync(toStream).ConfigureAwait(false);
             }
         }
-
-        /// <inheritdoc />
-        public IReadOnlyCollection<ImageFormat> GetSupportedImageOutputFormats()
-            => _imageEncoder.SupportedOutputFormats;
-
-        /// <inheritdoc />
-        public bool SupportsTransparency(string path)
-            => _transparentImageTypes.Contains(Path.GetExtension(path));
 
         /// <inheritdoc />
         public async Task<(string Path, string? MimeType, DateTime DateModified)> ProcessImage(ImageProcessingOptions options)
@@ -371,6 +371,11 @@ namespace Emby.Drawing
         {
             int width = info.Width;
             int height = info.Height;
+
+            if (info is null)
+            {
+                throw new ArgumentNullException(nameof(info));
+            }
 
             if (height > 0 && width > 0)
             {

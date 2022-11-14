@@ -87,8 +87,6 @@ namespace Jellyfin.Networking.Manager
         /// <summary>
         /// Flag set when no custom LAN has been defined in the configuration.
         /// </summary>
-        private bool _usingPrivateAddresses;
-
         /// <summary>
         /// True if this object is disposed.
         /// </summary>
@@ -974,6 +972,8 @@ namespace Jellyfin.Networking.Manager
         /// </summary>
         private void InitialiseLAN(NetworkConfiguration config)
         {
+            bool usingPrivateAddresses;
+
             lock (_intLock)
             {
                 _logger.LogDebug("Refreshing LAN information.");
@@ -987,11 +987,11 @@ namespace Jellyfin.Networking.Manager
                 _excludedSubnets = CreateIPCollection(subnets, true).AsNetworks();
 
                 // If no LAN addresses are specified - all private subnets are deemed to be the LAN
-                _usingPrivateAddresses = _lanSubnets.Count == 0;
+                usingPrivateAddresses = _lanSubnets.Count == 0;
 
                 // NOTE: The order of the commands generating the collection in this statement matters.
                 // Altering the order will cause the collections to be created incorrectly.
-                if (_usingPrivateAddresses)
+                if (usingPrivateAddresses)
                 {
                     _logger.LogDebug("Using LAN interface addresses as user provided no LAN details.");
                     // Internal interfaces must be private and not excluded.

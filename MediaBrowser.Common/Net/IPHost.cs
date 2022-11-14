@@ -256,6 +256,13 @@ namespace MediaBrowser.Common.Net
         }
 
         /// <inheritdoc/>
+        public override bool Contains(IPObject address)
+        {
+            // An IPHost cannot contain another IPObject, it can only be equal.
+            return Equals(address);
+        }
+
+        /// <inheritdoc/>
         public override bool Equals(IPObject? other)
         {
             if (other is IPHost otherObj)
@@ -370,13 +377,6 @@ namespace MediaBrowser.Common.Net
             {
                 _addresses = _addresses.Where(p => p.AddressFamily != family).ToArray();
             }
-        }
-
-        /// <inheritdoc/>
-        public override bool Contains(IPObject address)
-        {
-            // An IPHost cannot contain another IPObject, it can only be equal.
-            return Equals(address);
         }
 
         /// <inheritdoc/>

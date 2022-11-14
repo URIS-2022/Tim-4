@@ -62,6 +62,10 @@ namespace Emby.Drawing
             _appPaths = appPaths;
         }
 
+        public ImageProcessor()
+        {
+        }
+
         private string ResizedImageCachePath => Path.Combine(_appPaths.ImageCachePath, "resized-images");
 
         /// <inheritdoc />
@@ -119,101 +123,109 @@ namespace Emby.Drawing
         /// <inheritdoc />
         public async Task<(string Path, string? MimeType, DateTime DateModified)> ProcessImage(ImageProcessingOptions options)
         {
-            ItemImageInfo originalImage = options.Image;
-            BaseItem item = options.Item;
-
-            string originalImagePath = originalImage.Path;
-            DateTime dateModified = originalImage.DateModified;
-            ImageDimensions? originalImageSize = null;
-            if (originalImage.Width > 0 && originalImage.Height > 0)
+            if (options == null)
             {
-                originalImageSize = new ImageDimensions(originalImage.Width, originalImage.Height);
+                throw new ArgumentNullException(nameof(options));
             }
-
-            var mimeType = MimeTypes.GetMimeType(originalImagePath);
-            if (!_imageEncoder.SupportsImageEncoding)
+            else
             {
-                return (originalImagePath, mimeType, dateModified);
-            }
+                ItemImageInfo originalImage = options.Image;
+                BaseItem item = options.Item;
 
-            var supportedImageInfo = await GetSupportedImage(originalImagePath, dateModified).ConfigureAwait(false);
-            originalImagePath = supportedImageInfo.Path;
 
-            // Original file doesn't exist, or original file is gif.
-            if (!File.Exists(originalImagePath) || string.Equals(mimeType, MediaTypeNames.Image.Gif, StringComparison.OrdinalIgnoreCase))
-            {
-                return (originalImagePath, mimeType, dateModified);
-            }
-
-            dateModified = supportedImageInfo.DateModified;
-            bool requiresTransparency = _transparentImageTypes.Contains(Path.GetExtension(originalImagePath));
-
-            bool autoOrient = false;
-            ImageOrientation? orientation = null;
-            if (item is Photo photo)
-            {
-                if (photo.Orientation.HasValue)
+                string originalImagePath = originalImage.Path;
+                DateTime dateModified = originalImage.DateModified;
+                ImageDimensions? originalImageSize = null;
+                if (originalImage.Width > 0 && originalImage.Height > 0)
                 {
-                    if (photo.Orientation.Value != ImageOrientation.TopLeft)
+                    originalImageSize = new ImageDimensions(originalImage.Width, originalImage.Height);
+                }
+
+                var mimeType = MimeTypes.GetMimeType(originalImagePath);
+                if (!_imageEncoder.SupportsImageEncoding)
+                {
+                    return (originalImagePath, mimeType, dateModified);
+                }
+
+                var supportedImageInfo = await GetSupportedImage(originalImagePath, dateModified).ConfigureAwait(false);
+                originalImagePath = supportedImageInfo.Path;
+
+                // Original file doesn't exist, or original file is gif.
+                if (!File.Exists(originalImagePath) || string.Equals(mimeType, MediaTypeNames.Image.Gif, StringComparison.OrdinalIgnoreCase))
+                {
+                    return (originalImagePath, mimeType, dateModified);
+                }
+
+                dateModified = supportedImageInfo.DateModified;
+                bool requiresTransparency = _transparentImageTypes.Contains(Path.GetExtension(originalImagePath));
+
+                bool autoOrient = false;
+                ImageOrientation? orientation = null;
+                if (item is Photo photo)
+                {
+                    if (photo.Orientation.HasValue)
                     {
+                        if (photo.Orientation.Value != ImageOrientation.TopLeft)
+                        {
+                            autoOrient = true;
+                            orientation = photo.Orientation;
+                        }
+                    }
+                    else
+                    {
+                        // Orientation unknown, so do it
                         autoOrient = true;
                         orientation = photo.Orientation;
                     }
                 }
-                else
+
+                if (options.HasDefaultOptions(originalImagePath, originalImageSize) && (!autoOrient || !options.RequiresAutoOrientation))
                 {
-                    // Orientation unknown, so do it
-                    autoOrient = true;
-                    orientation = photo.Orientation;
+                    // Just spit out the original file if all the options are default
+                    return (originalImagePath, MimeTypes.GetMimeType(originalImagePath), dateModified);
                 }
-            }
 
-            if (options.HasDefaultOptions(originalImagePath, originalImageSize) && (!autoOrient || !options.RequiresAutoOrientation))
-            {
-                // Just spit out the original file if all the options are default
-                return (originalImagePath, MimeTypes.GetMimeType(originalImagePath), dateModified);
-            }
+                int quality = options.Quality;
 
-            int quality = options.Quality;
+                ImageFormat outputFormat = GetOutputFormat(options.SupportedOutputFormats, requiresTransparency);
+                string cacheFilePath = GetCacheFilePath(
+                    originalImagePath,
+                    options.Width,
+                    options.Height,
+                    options.MaxWidth,
+                    options.MaxHeight,
+                    options.FillWidth,
+                    options.FillHeight,
+                    quality,
+                    dateModified,
+                    outputFormat,
+                    options.AddPlayedIndicator,
+                    options.PercentPlayed,
+                    options.UnplayedCount,
+                    options.Blur,
+                    options.BackgroundColor,
+                    options.ForegroundLayer);
 
-            ImageFormat outputFormat = GetOutputFormat(options.SupportedOutputFormats, requiresTransparency);
-            string cacheFilePath = GetCacheFilePath(
-                originalImagePath,
-                options.Width,
-                options.Height,
-                options.MaxWidth,
-                options.MaxHeight,
-                options.FillWidth,
-                options.FillHeight,
-                quality,
-                dateModified,
-                outputFormat,
-                options.AddPlayedIndicator,
-                options.PercentPlayed,
-                options.UnplayedCount,
-                options.Blur,
-                options.BackgroundColor,
-                options.ForegroundLayer);
-
-            try
-            {
-                if (!File.Exists(cacheFilePath))
+                try
                 {
-                    string resultPath = _imageEncoder.EncodeImage(originalImagePath, dateModified, cacheFilePath, autoOrient, orientation, quality, options, outputFormat);
-
-                    if (string.Equals(resultPath, originalImagePath, StringComparison.OrdinalIgnoreCase))
+                    if (!File.Exists(cacheFilePath))
                     {
-                        return (originalImagePath, MimeTypes.GetMimeType(originalImagePath), dateModified);
-                    }
-                }
+                        string resultPath = _imageEncoder.EncodeImage(originalImagePath, dateModified, cacheFilePath, autoOrient, orientation, quality, options, outputFormat);
 
-                return (cacheFilePath, GetMimeType(outputFormat, cacheFilePath), _fileSystem.GetLastWriteTimeUtc(cacheFilePath));
-            }
-            catch (Exception ex)
-            {
-                // If it fails for whatever reason, return the original image
-                _logger.LogError(ex, "Error encoding image");
-                return (originalImagePath, MimeTypes.GetMimeType(originalImagePath), dateModified);
+                        if (string.Equals(resultPath, originalImagePath, StringComparison.OrdinalIgnoreCase))
+                        {
+                            return (originalImagePath, MimeTypes.GetMimeType(originalImagePath), dateModified);
+                        }
+                    }
+
+                    return (cacheFilePath, GetMimeType(outputFormat, cacheFilePath), _fileSystem.GetLastWriteTimeUtc(cacheFilePath));
+                }
+                catch (Exception ex)
+                {
+                    // If it fails for whatever reason, return the original image
+                    _logger.LogError(ex, "Error encoding image");
+                    return (originalImagePath, MimeTypes.GetMimeType(originalImagePath), dateModified);
+                }
             }
         }
 
@@ -501,7 +513,7 @@ namespace Emby.Drawing
         /// or
         /// fileExtension.
         /// </exception>
-        public string GetCachePath(string path, string uniqueName, string fileExtension)
+        public static string GetCachePath(string path, string uniqueName, string fileExtension)
         {
             if (string.IsNullOrEmpty(path))
             {
@@ -520,7 +532,9 @@ namespace Emby.Drawing
 
             var filename = uniqueName.GetMD5() + fileExtension;
 
-            return GetCachePath(path, filename);
+            var result = new ImageProcessor();
+
+            return result.GetCachePath(path, filename);
         }
 
         /// <summary>

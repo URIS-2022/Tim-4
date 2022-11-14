@@ -1,4 +1,4 @@
-﻿#pragma warning disable CA1307
+#pragma warning disable CA1307
 #pragma warning disable CA1309
 
 using System;
@@ -61,6 +61,7 @@ namespace Jellyfin.Server.Implementations.Users
         /// <inheritdoc />
         public IList<ItemDisplayPreferences> ListItemDisplayPreferences(Guid userId, string client)
         {
+
             return _dbContext.ItemDisplayPreferences
                 .AsQueryable()
                 .Where(prefs => prefs.UserId.Equals(userId) && !prefs.ItemId.Equals(default) && string.Equals(prefs.Client, client))

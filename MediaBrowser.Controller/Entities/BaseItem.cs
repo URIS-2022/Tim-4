@@ -834,14 +834,14 @@ namespace MediaBrowser.Controller.Entities
             return CanDelete(user, allCollectionFolders);
         }
 
-        public virtual bool CanDownload()
-        {
-            return false;
-        }
-
         public virtual bool IsAuthorizedToDownload(User user)
         {
             return user.HasPermission(PermissionKind.EnableContentDownloading);
+        }
+
+        public virtual bool CanDownload()
+        {
+            return false;
         }
 
         public bool CanDownload(User user)

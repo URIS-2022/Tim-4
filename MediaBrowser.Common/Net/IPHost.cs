@@ -245,12 +245,9 @@ namespace MediaBrowser.Common.Net
                     address = address.MapToIPv4();
                 }
 
-                foreach (var addr in GetAddresses())
+                foreach (var addr in GetAddresses().Where(x => address.Equals(x)))
                 {
-                    if (address.Equals(addr))
-                    {
-                        return true;
-                    }
+                    return true;
                 }
             }
 

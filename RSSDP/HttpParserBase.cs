@@ -1,7 +1,10 @@
+using MediaBrowser.Model.MediaInfo;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Net.Http;
+using System.Text;
 
 namespace Rssdp.Infrastructure
 {
@@ -128,6 +131,7 @@ namespace Rssdp.Infrastructure
             // Blank line separates headers from content, so read headers until we find blank line.
             int lineIndex = 1;
             string line = null, nextLine = null;
+            StringBuilder bld = new StringBuilder();
             while (lineIndex + 1 < lines.Length && !String.IsNullOrEmpty((line = lines[lineIndex++])))
             {
                 // If the following line starts with space or tab (or any whitespace), it is really part of this header but split for human readability.
@@ -136,7 +140,7 @@ namespace Rssdp.Infrastructure
                 {
                     if (nextLine.Length > 0 && Char.IsWhiteSpace(nextLine[0]))
                     {
-                        line += "," + nextLine.TrimStart();
+                        bld.Append("," + nextLine.TrimStart());
                         lineIndex++;
                     }
                     else
@@ -144,7 +148,7 @@ namespace Rssdp.Infrastructure
                         break;
                     }
                 }
-
+                line = bld.ToString();
                 ParseHeader(line, headers, contentHeaders);
             }
 

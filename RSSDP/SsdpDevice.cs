@@ -18,7 +18,6 @@ namespace Rssdp
     {
         private string _Udn;
         private string _DeviceType;
-        private string _DeviceTypeNamespace;
         private int _DeviceVersion;
 
         private IList<SsdpDevice> _Devices;
@@ -42,7 +41,7 @@ namespace Rssdp
         /// </summary>
         protected SsdpDevice()
         {
-            _DeviceTypeNamespace = SsdpConstants.UpnpDeviceTypeNamespace;
+            this.DeviceTypeNamespace = SsdpConstants.UpnpDeviceTypeNamespace;
             _DeviceType = SsdpConstants.UpnpDeviceTypeBasicDevice;
             _DeviceVersion = 1;
 
@@ -92,18 +91,8 @@ namespace Rssdp
         /// <seealso cref="DeviceType"/>
         /// <seealso cref="DeviceVersion"/>
         /// <seealso cref="FullDeviceType"/>
-        public string DeviceTypeNamespace
-        {
-            get
-            {
-                return _DeviceTypeNamespace;
-            }
-
-            set
-            {
-                _DeviceTypeNamespace = value;
-            }
-        }
+    
+        public string DeviceTypeNamespace { get; set; }
 
         /// <summary>
         /// Sets or returns the version of the device type. Optional, defaults to 1.

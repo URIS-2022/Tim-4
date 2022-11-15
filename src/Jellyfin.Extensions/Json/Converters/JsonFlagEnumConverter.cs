@@ -1,4 +1,5 @@
-﻿using System;
+using System;
+using System.Linq;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
@@ -23,12 +24,9 @@ public class JsonFlagEnumConverter<T> : JsonConverter<T>
     public override void Write(Utf8JsonWriter writer, T value, JsonSerializerOptions options)
     {
         writer.WriteStartArray();
-        foreach (var enumValue in _enumValues)
+        foreach (var enumValue in _enumValues.Where(x => value.HasFlag(x)))
         {
-            if (value.HasFlag(enumValue))
-            {
-                writer.WriteStringValue(enumValue.ToString());
-            }
+            writer.WriteStringValue(enumValue.ToString());
         }
 
         writer.WriteEndArray();

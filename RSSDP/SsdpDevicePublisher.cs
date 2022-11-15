@@ -339,7 +339,7 @@ namespace Rssdp.Infrastructure
             return String.Format(CultureInfo.InvariantCulture, "{0}::{1}", udn, fullDeviceType);
         }
 
-        private async SendSearchResponse (
+        private async void SendSearchResponse (
             string searchTarget,
             SsdpDevice device,
             string uniqueServiceName,

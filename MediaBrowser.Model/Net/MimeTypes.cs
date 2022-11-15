@@ -129,8 +129,6 @@ namespace MediaBrowser.Model.Net
             { "video/x-matroska", ".mkv" },
         };
 
-        public static string GetMimeType(string path) => GetMimeType(path, "application/octet-stream");
-
         /// <summary>
         /// Gets the type of the MIME.
         /// </summary>

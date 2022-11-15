@@ -290,12 +290,9 @@ namespace Emby.Server.Implementations.Library
                     return;
                 }
             }
-            else if (!item.IsFolder)
+            else if (!item.IsFolder && (item is not Video && item is not LiveTvChannel))
             {
-                if (item is not Video && item is not LiveTvChannel)
-                {
                     return;
-                }
             }
 
             _memoryCache.Set(item.Id, item);

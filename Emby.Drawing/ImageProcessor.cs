@@ -224,12 +224,10 @@ namespace Emby.Drawing
                 return ImageFormat.Png;
             }
 
-            foreach (var format in clientSupportedFormats)
+            var format = clientSupportedFormats.FirstOrDefault();
+            if (format != null && serverFormats.Contains(format))
             {
-                if (serverFormats.Contains(format))
-                {
-                    return format;
-                }
+                return format;
             }
 
             // We should never actually get here

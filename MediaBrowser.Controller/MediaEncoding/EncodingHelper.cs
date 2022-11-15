@@ -691,7 +691,6 @@ namespace MediaBrowser.Controller.MediaEncoding
                 var reqW = state.BaseRequest.Width;
                 var reqH = state.BaseRequest.Height;
                 var reqMaxW = state.BaseRequest.MaxWidth;
-                var reqMaxH = state.BaseRequest.MaxHeight;
 
                 // setup a relative small canvas_size for overlay_qsv/vaapi to reduce transfer overhead
                 var (overlayW, overlayH) = GetFixedOutputSize(inW, inH, reqW, reqH, reqMaxW, 1080);
@@ -4290,7 +4289,6 @@ namespace MediaBrowser.Controller.MediaEncoding
             var isSwEncoder = !isVaapiEncoder;
             var isVaInVaOut = isVaapiDecoder && isVaapiEncoder;
             var isi965Driver = _mediaEncoder.IsVaapiDeviceInteli965;
-            var isAmdDriver = _mediaEncoder.IsVaapiDeviceAmd;
 
             var doDeintH264 = state.DeInterlace("h264", true) || state.DeInterlace("avc", true);
             var doDeintHevc = state.DeInterlace("h265", true) || state.DeInterlace("hevc", true);

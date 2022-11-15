@@ -38,7 +38,6 @@ namespace Emby.Drawing
         private readonly IFileSystem _fileSystem;
         private readonly IServerApplicationPaths _appPaths;
         private readonly IImageEncoder _imageEncoder;
-        private readonly IMediaEncoder _mediaEncoder;
 
         private bool _disposed;
 
@@ -49,18 +48,15 @@ namespace Emby.Drawing
         /// <param name="appPaths">The server application paths.</param>
         /// <param name="fileSystem">The filesystem.</param>
         /// <param name="imageEncoder">The image encoder.</param>
-        /// <param name="mediaEncoder">The media encoder.</param>
         public ImageProcessor(
             ILogger<ImageProcessor> logger,
             IServerApplicationPaths appPaths,
             IFileSystem fileSystem,
-            IImageEncoder imageEncoder,
-            IMediaEncoder mediaEncoder)
+            IImageEncoder imageEncoder)
         {
             _logger = logger;
             _fileSystem = fileSystem;
             _imageEncoder = imageEncoder;
-            _mediaEncoder = mediaEncoder;
             _appPaths = appPaths;
         }
 
@@ -154,20 +150,15 @@ namespace Emby.Drawing
             ImageOrientation? orientation = null;
             if (item is Photo photo)
             {
-                if (photo.Orientation.HasValue)
+                if (photo.Orientation.HasValue && (photo.Orientation.Value != ImageOrientation.TopLeft))
                 {
-                    if (photo.Orientation.Value != ImageOrientation.TopLeft)
-                    {
-                        autoOrient = true;
-                        orientation = photo.Orientation;
-                    }
-                }
-                else
-                {
-                    // Orientation unknown, so do it
                     autoOrient = true;
                     orientation = photo.Orientation;
                 }
+
+                // Orientation unknown, so do it
+                autoOrient = true;
+                orientation = photo.Orientation;
             }
 
             if (options.HasDefaultOptions(originalImagePath, originalImageSize) && (!autoOrient || !options.RequiresAutoOrientation))
@@ -240,7 +231,7 @@ namespace Emby.Drawing
             return format;
         }
 
-        private string GetMimeType(ImageFormat format, string path)
+        private static string GetMimeType(ImageFormat format, string path)
             => format switch
             {
                 ImageFormat.Bmp => MimeTypes.GetMimeType("i.bmp"),

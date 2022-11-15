@@ -1261,7 +1261,6 @@ namespace MediaBrowser.XbmcMetadata.Parsers
                                         PersonType.Lyricist => PersonType.Lyricist,
                                         PersonType.Producer => PersonType.Producer,
                                         PersonType.Writer => PersonType.Writer,
-                                        PersonType.GuestStar => PersonType.GuestStar,
                                         // unknown type --> actor
                                         _ => PersonType.Actor
                                     };

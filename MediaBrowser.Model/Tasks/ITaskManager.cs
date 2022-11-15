@@ -56,15 +56,15 @@ namespace MediaBrowser.Model.Tasks
         void QueueScheduledTask<T>()
             where T : IScheduledTask;
 
-        void QueueIfNotRunning<T>()
-            where T : IScheduledTask;
-
         /// <summary>
         /// Queues the scheduled task.
         /// </summary>
         /// <param name="task">The <see cref="IScheduledTask" /> to queue.</param>
         /// <param name="options">The <see cref="TaskOptions" /> to use.</param>
         void QueueScheduledTask(IScheduledTask task, TaskOptions options);
+
+        void QueueIfNotRunning<T>()
+        where T : IScheduledTask;
 
         /// <summary>
         /// Adds the tasks.

@@ -1,13 +1,11 @@
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Net.Mime;
 using System.Text;
 using System.Threading.Tasks;
-using System.Xml.Linq;
 using Jellyfin.Data.Entities;
 using MediaBrowser.Common.Extensions;
 using MediaBrowser.Controller;
@@ -38,7 +36,6 @@ namespace Emby.Drawing
         private readonly IFileSystem _fileSystem;
         private readonly IServerApplicationPaths _appPaths;
         private readonly IImageEncoder _imageEncoder;
-        private readonly IMediaEncoder _mediaEncoder;
 
         private bool _disposed;
 
@@ -49,18 +46,15 @@ namespace Emby.Drawing
         /// <param name="appPaths">The server application paths.</param>
         /// <param name="fileSystem">The filesystem.</param>
         /// <param name="imageEncoder">The image encoder.</param>
-        /// <param name="mediaEncoder">The media encoder.</param>
         public ImageProcessor(
             ILogger<ImageProcessor> logger,
             IServerApplicationPaths appPaths,
             IFileSystem fileSystem,
-            IImageEncoder imageEncoder,
-            IMediaEncoder mediaEncoder)
+            IImageEncoder imageEncoder)
         {
             _logger = logger;
             _fileSystem = fileSystem;
             _imageEncoder = imageEncoder;
-            _mediaEncoder = mediaEncoder;
             _appPaths = appPaths;
         }
 
@@ -154,20 +148,15 @@ namespace Emby.Drawing
             ImageOrientation? orientation = null;
             if (item is Photo photo)
             {
-                if (photo.Orientation.HasValue)
+                if (photo.Orientation.HasValue && (photo.Orientation.Value != ImageOrientation.TopLeft))
                 {
-                    if (photo.Orientation.Value != ImageOrientation.TopLeft)
-                    {
-                        autoOrient = true;
-                        orientation = photo.Orientation;
-                    }
-                }
-                else
-                {
-                    // Orientation unknown, so do it
                     autoOrient = true;
                     orientation = photo.Orientation;
                 }
+
+                // Orientation unknown, so do it
+                autoOrient = true;
+                orientation = photo.Orientation;
             }
 
             if (options.HasDefaultOptions(originalImagePath, originalImageSize) && (!autoOrient || !options.RequiresAutoOrientation))
@@ -235,12 +224,19 @@ namespace Emby.Drawing
                 return ImageFormat.Png;
             }
 
-            var format = clientSupportedFormats.FirstOrDefault(x => serverFormats.Contains(x));
+            foreach (var format in clientSupportedFormats)
+            {
+                if (serverFormats.Contains(format))
+                {
+                    return format;
+                }
+            }
 
-            return format;
+            // We should never actually get here
+            return ImageFormat.Jpg;
         }
 
-        private string GetMimeType(ImageFormat format, string path)
+        private static string GetMimeType(ImageFormat format, string path)
             => format switch
             {
                 ImageFormat.Bmp => MimeTypes.GetMimeType("i.bmp"),
@@ -449,8 +445,6 @@ namespace Emby.Drawing
             {
                 return Task.FromResult((originalImagePath, dateModified));
             }
-
-            // TODO _mediaEncoder.ConvertImage is not implemented
 
             return Task.FromResult((originalImagePath, dateModified));
         }

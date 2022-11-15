@@ -801,7 +801,7 @@ namespace Emby.Server.Implementations.Data
             saveItemStatement.TryBind("@DateModified", item.DateModified);
 
             saveItemStatement.TryBind("@PreferredMetadataLanguage", item.PreferredMetadataLanguage);
-            saveItemStatement.TryBind("@PreferredMetadataCountryCode", item.PreferredMetadataCountryCode);
+            saveItemStatement.TryBind("@PreferredMetadataCountryCode", item.PreferredMetadataCC);
 
             if (item.Width > 0)
             {
@@ -1543,7 +1543,7 @@ namespace Emby.Server.Implementations.Data
 
                 if (reader.TryGetString(index++, out var preferredMetadataCountryCode))
                 {
-                    item.PreferredMetadataCountryCode = preferredMetadataCountryCode;
+                    item.PreferredMetadataCC = preferredMetadataCountryCode;
                 }
             }
 

@@ -814,7 +814,8 @@ namespace Emby.Server.Implementations.Dto
 
             if (options.ContainsField(ItemFields.Settings))
             {
-                dto.PreferredMetadataCountryCode = item.PreferredMetadataCountryCode;
+                dto.PreferredMetadataCountryCode = item.PreferredMetadataCC;
+
                 dto.PreferredMetadataLanguage = item.PreferredMetadataLanguage;
             }
 

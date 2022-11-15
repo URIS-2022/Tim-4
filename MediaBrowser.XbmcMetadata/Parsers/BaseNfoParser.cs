@@ -399,7 +399,7 @@ namespace MediaBrowser.XbmcMetadata.Parsers
                     {
                         var val = reader.ReadElementContentAsString();
 
-                        item.PreferredMetadataCountryCode = val;
+                        item.PreferredMetadataCC = val;
 
                         break;
                     }

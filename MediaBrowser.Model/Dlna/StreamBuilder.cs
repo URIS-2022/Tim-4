@@ -677,7 +677,7 @@ namespace MediaBrowser.Model.Dlna
             {
                 // Can't direct play, find the transcoding profile
                 // If we do this for direct-stream we will overwrite the info
-                var transcodingProfile = GetVideoTranscodeProfile(item, options, videoStream, audioStream, candidateAudioStreams, subtitleStream, playlistItem);
+                var transcodingProfile = GetVideoTranscodeProfile(item, options, videoStream, audioStream, subtitleStream, playlistItem);
                 if (transcodingProfile != null)
                 {
                     SetStreamInfoOptionsFromTranscodingProfile(item, playlistItem, transcodingProfile);
@@ -716,7 +716,7 @@ namespace MediaBrowser.Model.Dlna
             return playlistItem;
         }
 
-        private TranscodingProfile GetVideoTranscodeProfile(MediaSourceInfo item, VideoOptions options, MediaStream videoStream, MediaStream audioStream, IEnumerable<MediaStream> candidateAudioStreams, MediaStream subtitleStream, StreamInfo playlistItem)
+        private TranscodingProfile GetVideoTranscodeProfile(MediaSourceInfo item, VideoOptions options, MediaStream videoStream, MediaStream audiostream, MediaStream subtitleStream, StreamInfo playlistItem)
         {
             if (!(item.SupportsTranscoding || item.SupportsDirectStream))
             {
@@ -1217,7 +1217,6 @@ namespace MediaBrowser.Model.Dlna
                 .OrderByDescending(analysis => analysis.Result.PlayMethod)
                 .ThenByDescending(analysis => analysis.Rank)
                 .ThenBy(analysis => analysis.Order)
-                .ToArray()
                 .ToLookup(analysis => analysis.Result.PlayMethod != null);
 
             var profileMatch = analyzedProfiles[true]

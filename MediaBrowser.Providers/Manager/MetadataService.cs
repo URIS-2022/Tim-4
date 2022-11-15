@@ -1102,7 +1102,7 @@ namespace MediaBrowser.Providers.Manager
                     target.DateCreated = source.DateCreated;
                 }
 
-                target.PreferredMetadataCountryCode = source.PreferredMetadataCountryCode;
+                target.PreferredMetadataCC = source.PreferredMetadataCC;
                 target.PreferredMetadataLanguage = source.PreferredMetadataLanguage;
             }
         }

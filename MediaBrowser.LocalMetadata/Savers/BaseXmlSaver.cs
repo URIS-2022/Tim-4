@@ -294,9 +294,9 @@ namespace MediaBrowser.LocalMetadata.Savers
                 await writer.WriteElementStringAsync(null, "Language", null, item.PreferredMetadataLanguage).ConfigureAwait(false);
             }
 
-            if (!string.IsNullOrEmpty(item.PreferredMetadataCountryCode))
+            if (!string.IsNullOrEmpty(item.PreferredMetadataCC))
             {
-                await writer.WriteElementStringAsync(null, "CountryCode", null, item.PreferredMetadataCountryCode).ConfigureAwait(false);
+                await writer.WriteElementStringAsync(null, "CountryCode", null, item.PreferredMetadataCC).ConfigureAwait(false);
             }
 
             // Use original runtime here, actual file runtime later in MediaInfo

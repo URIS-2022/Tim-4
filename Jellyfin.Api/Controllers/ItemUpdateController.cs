@@ -274,7 +274,7 @@ namespace Jellyfin.Api.Controllers
                 item.ProductionLocations = request.ProductionLocations;
             }
 
-            item.PreferredMetadataCountryCode = request.PreferredMetadataCountryCode;
+            item.PreferredMetadataCC = request.PreferredMetadataCountryCode;
             item.PreferredMetadataLanguage = request.PreferredMetadataLanguage;
 
             if (item is IHasDisplayOrder hasDisplayOrder)

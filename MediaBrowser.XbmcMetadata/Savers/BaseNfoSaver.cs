@@ -588,9 +588,9 @@ namespace MediaBrowser.XbmcMetadata.Savers
                 writer.WriteElementString("language", item.PreferredMetadataLanguage);
             }
 
-            if (!string.IsNullOrEmpty(item.PreferredMetadataCountryCode))
+            if (!string.IsNullOrEmpty(item.PreferredMetadataCC))
             {
-                writer.WriteElementString("countrycode", item.PreferredMetadataCountryCode);
+                writer.WriteElementString("countrycode", item.PreferredMetadataCC);
             }
 
             if (item.PremiereDate.HasValue && item is not Episode)

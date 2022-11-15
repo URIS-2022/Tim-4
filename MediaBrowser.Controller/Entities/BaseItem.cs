@@ -4,6 +4,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Globalization;
 using System.IO;
 using System.Linq;
@@ -102,7 +103,7 @@ namespace MediaBrowser.Controller.Entities
         }
 
         [JsonIgnore]
-        public string PreferredMetadataCountryCode { get; set; }
+        public string PreferredMetadataCC { get; set; }
 
         [JsonIgnore]
         public string PreferredMetadataLanguage { get; set; }
@@ -1476,19 +1477,19 @@ namespace MediaBrowser.Controller.Entities
         /// <returns>System.String.</returns>
         public string GetPreferredMetadataCountryCode()
         {
-            string lang = PreferredMetadataCountryCode;
+            string lang = PreferredMetadataCC;
 
             if (string.IsNullOrEmpty(lang))
             {
                 lang = GetParents()
-                    .Select(i => i.PreferredMetadataCountryCode)
+                    .Select(i => i.PreferredMetadataCC)
                     .FirstOrDefault(i => !string.IsNullOrEmpty(i));
             }
 
             if (string.IsNullOrEmpty(lang))
             {
                 lang = LibraryManager.GetCollectionFolders(this)
-                    .Select(i => i.PreferredMetadataCountryCode)
+                    .Select(i => i.PreferredMetadataCC)
                     .FirstOrDefault(i => !string.IsNullOrEmpty(i));
             }
 

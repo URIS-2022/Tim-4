@@ -316,21 +316,18 @@ namespace Emby.Server.Implementations.Library
         {
             ArgumentNullException.ThrowIfNull(item);
 
-            if (item.SourceType == SourceType.Channel)
+            if (item.SourceType == SourceType.Channel && options.DeleteFromExternalProvider)
             {
-                if (options.DeleteFromExternalProvider)
-                {
                     try
                     {
                         BaseItem.ChannelManager.DeleteItem(item).GetAwaiter().GetResult();
                     }
-                    catch (ArgumentException)
+                    finally
                     {
                         // channel no longer installed
                     }
-                }
 
-                options.DeleteFileLocation = false;
+                    options.DeleteFileLocation = false;
             }
 
             if (item is LiveTvProgram)
@@ -386,46 +383,7 @@ namespace Emby.Server.Implementations.Library
                 // Add this flag to GetDeletePaths if required in the future
                 var isRequiredForDelete = true;
 
-                foreach (var fileSystemInfo in item.GetDeletePaths())
-                {
-                    if (Directory.Exists(fileSystemInfo.FullName) || File.Exists(fileSystemInfo.FullName))
-                    {
-                        try
-                        {
-                            _logger.LogInformation(
-                                "Deleting item path, Type: {0}, Name: {1}, Path: {2}, Id: {3}",
-                                item.GetType().Name,
-                                item.Name ?? "Unknown name",
-                                fileSystemInfo.FullName,
-                                item.Id);
-
-                            if (fileSystemInfo.IsDirectory)
-                            {
-                                Directory.Delete(fileSystemInfo.FullName, true);
-                            }
-                            else
-                            {
-                                File.Delete(fileSystemInfo.FullName);
-                            }
-                        }
-                        catch (IOException)
-                        {
-                            if (isRequiredForDelete)
-                            {
-                                throw;
-                            }
-                        }
-                        catch (UnauthorizedAccessException)
-                        {
-                            if (isRequiredForDelete)
-                            {
-                                throw;
-                            }
-                        }
-                    }
-
-                    isRequiredForDelete = false;
-                }
+                DeletePaths(item, isRequiredForDelete);
             }
 
             item.SetParent(null);
@@ -439,6 +397,50 @@ namespace Emby.Server.Implementations.Library
             _memoryCache.Remove(item.Id);
 
             ReportItemRemoved(item, parent);
+        }
+
+        public void DeletePaths(BaseItem item, bool isRequiredForDelete)
+        {
+            foreach (var fileSystemInfo in item.GetDeletePaths())
+            {
+                if (Directory.Exists(fileSystemInfo.FullName) || File.Exists(fileSystemInfo.FullName))
+                {
+                    try
+                    {
+                        _logger.LogInformation(
+                            "Deleting item path, Type: {0}, Name: {1}, Path: {2}, Id: {3}",
+                            item.GetType().Name,
+                            item.Name ?? "Unknown name",
+                            fileSystemInfo.FullName,
+                            item.Id);
+
+                        if (fileSystemInfo.IsDirectory)
+                        {
+                            Directory.Delete(fileSystemInfo.FullName, true);
+                        }
+                        else
+                        {
+                            File.Delete(fileSystemInfo.FullName);
+                        }
+                    }
+                    catch (IOException)
+                    {
+                        if (isRequiredForDelete)
+                        {
+                            throw;
+                        }
+                    }
+                    catch (UnauthorizedAccessException)
+                    {
+                        if (isRequiredForDelete)
+                        {
+                            throw;
+                        }
+                    }
+                }
+
+                isRequiredForDelete = false;
+            }
         }
 
         private static IEnumerable<string> GetMetadataPaths(BaseItem item, IEnumerable<BaseItem> children)

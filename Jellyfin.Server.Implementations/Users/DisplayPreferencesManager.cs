@@ -1,4 +1,4 @@
-﻿#pragma warning disable CA1307
+#pragma warning disable CA1307
 #pragma warning disable CA1309
 
 using System;
@@ -20,10 +20,10 @@ namespace Jellyfin.Server.Implementations.Users
         /// <summary>
         /// Initializes a new instance of the <see cref="DisplayPreferencesManager"/> class.
         /// </summary>
-        /// <param name="dbContext">The database context.</param>
-        public DisplayPreferencesManager(JellyfinDb dbContext)
+        /// <param name="dbContextFactory">The database context factory.</param>
+        public DisplayPreferencesManager(IDbContextFactory<JellyfinDb> dbContextFactory)
         {
-            _dbContext = dbContext;
+            _dbContext = dbContextFactory.CreateDbContext();
         }
 
         /// <inheritdoc />
@@ -63,7 +63,7 @@ namespace Jellyfin.Server.Implementations.Users
         {
             return _dbContext.ItemDisplayPreferences
                 .AsQueryable()
-                .Where(prefs => prefs.UserId.Equals(userId) && !prefs.ItemId.Equals(default) && string.Equals(prefs.Client, client))
+                .Where(prefs => prefs.UserId.Equals(userId) && !prefs.ItemId.Equals(Guid.Empty) && string.Equals(prefs.Client, client))
                 .ToList();
         }
 

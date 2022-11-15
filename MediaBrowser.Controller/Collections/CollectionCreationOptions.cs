@@ -28,5 +28,8 @@ namespace MediaBrowser.Controller.Collections
         public IReadOnlyList<string> ItemIdList { get; set; }
 
         public IReadOnlyList<Guid> UserIds { get; set; }
+
+        public IReadOnlyDictionary<string, string> ProvidersIds { get; }
+
     }
 }

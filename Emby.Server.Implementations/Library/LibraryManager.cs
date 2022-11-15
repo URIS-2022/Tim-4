@@ -4,6 +4,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Globalization;
 using System.IO;
 using System.Linq;
@@ -3156,6 +3157,11 @@ namespace Emby.Server.Implementations.Library
                 .ToArray();
 
             CollectionFolder.SaveLibraryOptions(virtualFolderPath, libraryOptions);
+        }
+
+        public object GetCollectionFolders(BaseItem baseItem, Collection<Folder> allCollectionFolders)
+        {
+            throw new NotImplementedException();
         }
     }
 }

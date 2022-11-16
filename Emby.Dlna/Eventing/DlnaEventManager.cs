@@ -167,9 +167,6 @@ namespace Emby.Dlna.Eventing
                 using var response = await _httpClientFactory.CreateClient(NamedClient.Default)
                     .SendAsync(options, HttpCompletionOption.ResponseHeadersRead).ConfigureAwait(false);
             }
-            catch (OperationCanceledException)
-            {
-            }
             catch
             {
                 // Already logged at lower levels

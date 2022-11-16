@@ -1002,16 +1002,12 @@ namespace Emby.Dlna.Didl
                 "jpg");
             writer.WriteElementString("upnp", "icon", NsUpnp, iconUrlInfo.Url);
 
-            if (!_profile.EnableAlbumArtInDidl)
+            if (!_profile.EnableAlbumArtInDidl &&
+                (string.Equals(item.MediaType, MediaType.Audio, StringComparison.OrdinalIgnoreCase)
+                    || string.Equals(item.MediaType, MediaType.Video, StringComparison.OrdinalIgnoreCase)) &&
+                    !stubType.HasValue)
             {
-                if (string.Equals(item.MediaType, MediaType.Audio, StringComparison.OrdinalIgnoreCase)
-                    || string.Equals(item.MediaType, MediaType.Video, StringComparison.OrdinalIgnoreCase))
-                {
-                    if (!stubType.HasValue)
-                    {
-                        return;
-                    }
-                }
+                    return;
             }
 
             if (!_profile.EnableSingleAlbumArtLimit || string.Equals(item.MediaType, MediaType.Photo, StringComparison.OrdinalIgnoreCase))

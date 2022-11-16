@@ -39,11 +39,10 @@ namespace Emby.Dlna.PlayTo
         public string PresentationUrl { get; set; }
 
         public string BaseUrl
-        {
-            get => _baseUrl;
-            set => _baseUrl = value;
-        }
-
+         {
+           get => _baseUrl;
+           set => _baseUrl = value;
+         }
         public DeviceIcon Icon { get; set; }
 
         public List<DeviceService> Services => _services;

@@ -545,7 +545,7 @@ namespace Jellyfin.Networking.Manager
                 _logger.LogInformation("Interface {Token} used in settings. Using its interface addresses.", token);
 
                 // Replace interface tags with the interface IP's.
-                foreach (IPNetAddress iface in _interfaceAddresses)
+                foreach (IPObject iface in _interfaceAddresses)
                 {
                     if (Math.Abs(iface.Tag) == index
                         && ((IsIP4Enabled && iface.Address.AddressFamily == AddressFamily.InterNetwork)

@@ -710,7 +710,8 @@ namespace MediaBrowser.Controller.Entities
         {
             get
             {
-                if (this is BasePluginFolder || this is Channel)
+                var folder = this;
+                if (folder is BasePluginFolder || this is Channel)
                 {
                     return true;
                 }

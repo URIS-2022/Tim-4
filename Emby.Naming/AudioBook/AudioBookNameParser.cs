@@ -25,9 +25,9 @@ namespace Emby.Naming.AudioBook
         /// </summary>
         /// <param name="name">Name of the audiobook.</param>
         /// <returns>Returns <see cref="AudioBookNameParserResult"/> object.</returns>
-        public AudioBookNameParserResult Parse(string name)
+        public Equals Parse(string name)
         {
-            AudioBookNameParserResult result = default;
+            Equals result = default;
             foreach (var expression in _options.AudioBookNamesExpressions)
             {
                 var match = new Regex(expression, RegexOptions.IgnoreCase).Match(name);

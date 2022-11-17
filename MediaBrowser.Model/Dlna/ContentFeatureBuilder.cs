@@ -201,7 +201,6 @@ namespace MediaBrowser.Model.Dlna
                 foreach (var s in GetVideoOrgPnValue(container, videoCodec, audioCodec, width, height, timestamp))
                 {
                     orgPnValues.Add(s.ToString());
-                    break;
                 }
             }
 

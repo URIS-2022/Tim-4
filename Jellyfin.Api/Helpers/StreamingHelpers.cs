@@ -183,7 +183,7 @@ namespace Jellyfin.Api.Helpers
 
             state.OutputContainer = (containerInternal ?? string.Empty).TrimStart('.');
 
-            state.OutputAudioBitrate = encodingHelper.GetAudioBitrateParam(streamingRequest.AudioBitRate, streamingRequest.AudioCodec, state.AudioStream);
+            state.SetOutputAudioBitrate(encodingHelper.GetAudioBitrateParam(streamingRequest.AudioBitRate, streamingRequest.AudioCodec, state.AudioStream));
 
             state.OutputAudioCodec = streamingRequest.AudioCodec;
 
@@ -297,7 +297,7 @@ namespace Jellyfin.Api.Helpers
                     profile,
                     state.OutputContainer,
                     audioCodec,
-                    state.OutputAudioBitrate,
+                    state.GetOutputAudioBitrate(),
                     state.OutputAudioSampleRate,
                     state.OutputAudioChannels,
                     state.OutputAudioBitDepth,
@@ -530,7 +530,7 @@ namespace Jellyfin.Api.Helpers
             var videoCodec = state.ActualOutputVideoCodec;
 
             var mediaProfile = !state.IsVideoRequest
-                ? profile.GetAudioMediaProfile(state.OutputContainer, audioCodec, state.OutputAudioChannels, state.OutputAudioBitrate, state.OutputAudioSampleRate, state.OutputAudioBitDepth)
+                ? profile.GetAudioMediaProfile(state.OutputContainer, audioCodec, state.OutputAudioChannels, state.GetOutputAudioBitrate(), state.OutputAudioSampleRate, state.OutputAudioBitDepth)
                 : profile.GetVideoMediaProfile(
                     state.OutputContainer,
                     audioCodec,

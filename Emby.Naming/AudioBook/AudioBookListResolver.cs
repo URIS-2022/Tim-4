@@ -64,7 +64,7 @@ namespace Emby.Naming.AudioBook
             }
         }
 
-        private void FindExtraAndAlternativeFiles(ref List<AudioBookFileInfo> stackFiles, out List<AudioBookFileInfo> extras, out List<AudioBookFileInfo> alternativeVersions, AudioBookNameParserResult nameParserResult)
+        private void FindExtraAndAlternativeFiles(ref List<AudioBookFileInfo> stackFiles, out List<AudioBookFileInfo> extras, out List<AudioBookFileInfo> alternativeVersions, Equals nameParserResult)
         {
             extras = new List<AudioBookFileInfo>();
             alternativeVersions = new List<AudioBookFileInfo>();

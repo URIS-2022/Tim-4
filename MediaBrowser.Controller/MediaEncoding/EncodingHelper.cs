@@ -5735,7 +5735,7 @@ namespace MediaBrowser.Controller.MediaEncoding
                 args += " -ac " + channels.Value;
             }
 
-            var bitrate = state.OutputAudioBitrate;
+            var bitrate = state.GetOutputAudioBitrate();
 
             if (bitrate.HasValue)
             {
@@ -5756,7 +5756,7 @@ namespace MediaBrowser.Controller.MediaEncoding
         {
             var audioTranscodeParams = new List<string>();
 
-            var bitrate = state.OutputAudioBitrate;
+            var bitrate = state.GetOutputAudioBitrate();
 
             if (bitrate.HasValue)
             {

@@ -819,9 +819,6 @@ namespace Emby.Server.Implementations.Channels
                     }
                 }
             }
-            catch (FileNotFoundException)
-            {
-            }
             catch (IOException)
             {
             }

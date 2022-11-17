@@ -120,7 +120,7 @@ namespace Emby.Server.Implementations.Data
             var item = reader[index];
             if (item.IsDbNull())
             {
-                result = default;
+                result = Guid.Empty;
                 return false;
             }
 

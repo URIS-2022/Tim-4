@@ -32,7 +32,6 @@ namespace Emby.Server.Implementations.Images
 
             // TODO enable this when BaseDynamicImageProvider objects are configurable
             // return _libraryManager.GetItemList(new InternalItemsQuery
-            // {
             //    ArtistIds = new[] { item.Id },
             //    IncludeItemTypes = new[] { nameof(MusicAlbum) },
             //    OrderBy = new[] { (ItemSortBy.Random, SortOrder.Ascending) },

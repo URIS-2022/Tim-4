@@ -17,7 +17,6 @@ namespace DvdLib.Ifo
 
         private ushort _parentalManagementMask;
         private byte _titleNumberInVTS;
-        private uint _vtsStartSector; // relative to start of entire disk
 
         public ProgramChain EntryProgramChain { get; private set; }
 
@@ -48,7 +47,6 @@ namespace DvdLib.Ifo
             _parentalManagementMask = br.ReadUInt16();
             VideoTitleSetNumber = br.ReadByte();
             _titleNumberInVTS = br.ReadByte();
-            _vtsStartSector = br.ReadUInt32();
         }
 
         internal void AddPgc(BinaryReader br, long startByte, bool entryPgc, uint pgcNum)

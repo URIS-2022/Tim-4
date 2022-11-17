@@ -1685,9 +1685,9 @@ namespace Jellyfin.Api.Controllers
 
                 audioTranscodeParams += "-acodec " + audioCodec;
 
-                if (state.OutputAudioBitrate.HasValue)
+                if (state.GetOutputAudioBitrate().HasValue)
                 {
-                    audioTranscodeParams += " -ab " + state.OutputAudioBitrate.Value.ToString(CultureInfo.InvariantCulture);
+                    audioTranscodeParams += " -ab " + state.GetOutputAudioBitrate().Value.ToString(CultureInfo.InvariantCulture);
                 }
 
                 if (state.OutputAudioChannels.HasValue)
@@ -1736,7 +1736,7 @@ namespace Jellyfin.Api.Controllers
                 args += " -ac " + channels.Value;
             }
 
-            var bitrate = state.OutputAudioBitrate;
+            var bitrate = state.GetOutputAudioBitrate();
 
             if (bitrate.HasValue)
             {

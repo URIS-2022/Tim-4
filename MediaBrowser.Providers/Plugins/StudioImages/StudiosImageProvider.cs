@@ -126,7 +126,7 @@ namespace MediaBrowser.Providers.Plugins.StudioImages
                 var httpClient = _httpClientFactory.CreateClient(NamedClient.Default);
 
                 Directory.CreateDirectory(Path.GetDirectoryName(file));
-                await using var response = await httpClient.GetStreamAsync(url, cancellationToken).ConfigureAwait(false);
+                await using var response = await httpClient.GetStreamAsync(url, cancellationToken).ConfigureAwait(true);
                 await using var fileStream = new FileStream(file, FileMode.Create, FileAccess.Write, FileShare.None, IODefaults.FileStreamBufferSize, FileOptions.Asynchronous);
                 await response.CopyToAsync(fileStream, cancellationToken).ConfigureAwait(false);
             }

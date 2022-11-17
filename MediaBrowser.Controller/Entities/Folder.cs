@@ -144,11 +144,6 @@ namespace MediaBrowser.Controller.Entities
                     return false;
                 }
 
-                if (this is Channel)
-                {
-                    return false;
-                }
-
                 if (SourceType != SourceType.Library)
                 {
                     return false;

@@ -5,6 +5,7 @@
 using System;
 using System.IO;
 using System.Linq;
+using System.Linq.Expressions;
 using DiscUtils.Udf;
 using Emby.Naming.Common;
 using Emby.Naming.Video;
@@ -230,9 +231,21 @@ namespace Emby.Server.Implementations.Library.Resolvers
 
         protected void Set3DFormat(Video video)
         {
-            var result = Format3DParser.Parse(video.Path, NamingOptions);
+            if (video == null)
 
-            Set3DFormat(video, result.Is3D, result.Format3D);
+            {
+                try
+                {
+                    var result = Format3DParser.Parse(video.Path, NamingOptions);
+                    Set3DFormat(video, result.Is3D, result.Format3D);
+                }
+
+                catch (ArgumentNullException)
+
+                {
+                    Console.WriteLine("Exception");
+                }
+            }
         }
 
         /// <summary>

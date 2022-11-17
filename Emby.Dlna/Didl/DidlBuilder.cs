@@ -457,15 +457,6 @@ namespace Emby.Dlna.Didl
 
             if (context is Season season)
             {
-                // This is a special embedded within a season
-                if (episode.ParentIndexNumber.HasValue && episode.ParentIndexNumber.Value == 0
-                    && season.IndexNumber.HasValue && season.IndexNumber.Value != 0)
-                {
-                    return string.Format(
-                        CultureInfo.InvariantCulture,
-                        _localization.GetLocalizedString("ValueSpecialEpisodeName"),
-                        episode.Name);
-                }
 
                 // inside a season use simple format (ex. '12 - Episode Name')
                 var epNumberName = GetEpisodeIndexFullName(episode);

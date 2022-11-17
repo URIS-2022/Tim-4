@@ -274,7 +274,7 @@ namespace Emby.Dlna.Main
 
                 _publisher.StartBroadcastingAliveMessages(TimeSpan.FromSeconds(options.BlastAliveMessageIntervalSeconds));
             }
-            catch (Exception ex)
+            catch (EntryPointNotFoundException ex)
             {
                 _logger.LogError(ex, "Error registering endpoint");
             }

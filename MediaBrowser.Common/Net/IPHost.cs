@@ -25,7 +25,7 @@ namespace MediaBrowser.Common.Net
         /// <summary>
         /// Time when last resolved in ticks.
         /// </summary>
-        private DateTime? _lastResolved = null;
+        private DateTime? _lastResolved;
 
         /// <summary>
         /// Gets the IP Addresses, attempting to resolve the name, if there are none.

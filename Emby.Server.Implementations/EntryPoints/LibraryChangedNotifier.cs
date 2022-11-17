@@ -129,8 +129,9 @@ namespace Emby.Server.Implementations.EntryPoints
                 {
                     _sessionManager.SendMessageToAdminSessions(SessionMessageType.RefreshProgress, collectionFolderDict, CancellationToken.None);
                 }
-                catch
+                catch (Exception ex)
                 {
+                    _logger.LogError(ex, "Error in OnProviderRefreshProgress");
                 }
             }
         }

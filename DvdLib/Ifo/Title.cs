@@ -21,9 +21,9 @@ namespace DvdLib.Ifo
 
         public ProgramChain EntryProgramChain { get; private set; }
 
-        private readonly List<ProgramChain> ProgramChains;
+        public List<ProgramChain> ProgramChains { get; }
 
-        private readonly List<Chapter> Chapters;
+        public List<Chapter> Chapters;
 
         public Title(uint titleNum)
         {

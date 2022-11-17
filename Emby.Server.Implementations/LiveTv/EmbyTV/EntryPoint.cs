@@ -16,6 +16,7 @@ namespace Emby.Server.Implementations.LiveTv.EmbyTV
         /// <inheritdoc />
         public void Dispose()
         {
+            // Implemented because of IDisposable
         }
     }
 }

@@ -101,7 +101,7 @@ namespace MediaBrowser.Model.Dlna
 
         public string PlaySessionId { get; set; }
 
-        public TranscodeReason TranscodeReasons { get; set; }
+        public TranscodeReasons TranscodeReasons { get; set; }
 
         public Dictionary<string, string> StreamOptions { get; private set; }
 

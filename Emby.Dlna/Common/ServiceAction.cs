@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 
 namespace Emby.Dlna.Common
 {
@@ -12,7 +13,7 @@ namespace Emby.Dlna.Common
         /// </summary>
         public ServiceAction()
         {
-            ArgumentList = new List<Argument>();
+            ArgumentList = new Collection<Argument>();
         }
 
         /// <summary>
@@ -23,7 +24,7 @@ namespace Emby.Dlna.Common
         /// <summary>
         /// Gets the ArgumentList.
         /// </summary>
-        public List<Argument> ArgumentList { get; }
+        public Collection<Argument> ArgumentList { get; }
 
         /// <inheritdoc />
         public override string ToString() => Name;

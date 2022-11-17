@@ -20,6 +20,7 @@ using MediaBrowser.Controller.Dto;
 using MediaBrowser.Controller.Entities.Audio;
 using MediaBrowser.Controller.Entities.Movies;
 using MediaBrowser.Controller.Library;
+using MediaBrowser.Controller.MediaEncoding;
 using MediaBrowser.Controller.Providers;
 using MediaBrowser.Model.Dto;
 using MediaBrowser.Model.IO;
@@ -128,7 +129,7 @@ namespace MediaBrowser.Controller.Entities
             get
             {
                 // These are just far too slow.
-                if (this is ICollectionFolder)
+                if (this.GetType() == typeof(ICollectionFolder))
                 {
                     return false;
                 }

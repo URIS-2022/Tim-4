@@ -875,7 +875,7 @@ namespace Emby.Dlna.PlayTo
 
             try
             {
-                uPnpResponse = ParseResponse(trackString);
+                uPnpResponse = ParseResponse(trackString, _logger);
             }
             catch (Exception ex)
             {
@@ -895,7 +895,7 @@ namespace Emby.Dlna.PlayTo
             return (true, uTrack);
         }
 
-        private static XElement ParseResponse(string xml)
+        private static XElement ParseResponse(string xml, ILogger _logger)
         {
             // Handle different variations sent back by devices.
             try
@@ -913,8 +913,9 @@ namespace Emby.Dlna.PlayTo
                                 .Descendants()
                                 .First();
             }
-            catch (XmlException)
+            catch (XmlException exc)
             {
+                _logger.LogError(exc, "Error in ParseResponse");
             }
 
             // some devices send back invalid xml

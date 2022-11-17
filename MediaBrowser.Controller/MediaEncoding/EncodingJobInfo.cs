@@ -23,7 +23,7 @@ namespace MediaBrowser.Controller.MediaEncoding
         public int? OutputAudioBitrate;
         public int? OutputAudioChannels;
 
-        private TranscodeReason? _transcodeReasons = null;
+        private TranscodeReasons? _transcodeReasons = null;
 
         public EncodingJobInfo(TranscodingJobType jobType)
         {
@@ -34,7 +34,7 @@ namespace MediaBrowser.Controller.MediaEncoding
             SupportedSubtitleCodecs = Array.Empty<string>();
         }
 
-        public TranscodeReason TranscodeReasons
+        public TranscodeReasons GetTranscodeReasons
         {
             get
             {
@@ -46,7 +46,7 @@ namespace MediaBrowser.Controller.MediaEncoding
                         return 0;
                     }
 
-                    _ = Enum.TryParse<TranscodeReason>(BaseRequest.TranscodeReasons, out var reason);
+                    _ = Enum.TryParse<TranscodeReasons>(BaseRequest.TranscodeReasons, out var reason);
                     _transcodeReasons = reason;
                 }
 

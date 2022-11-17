@@ -1,34 +1,3 @@
-Skip to content
-Search or jump to…
-Pull requests
-Issues
-Codespaces
-Marketplace
-Explore
- 
-@it15-2019 
-URIS-2022
-/
-Tim-4
-Public
-forked from jellyfin/jellyfin
-Code
-Pull requests
-1
-Actions
-Projects
-Security
-Insights
-Settings
-Tim-4/RSSDP/SsdpDevicePublisher.cs /
-@AnaMarijaKarcas
-AnaMarijaKarcas Merge branch 'master' of https://github.com/URIS-2022/Tim-4
-Latest commit eef1393 2 minutes ago
- History
- 8 contributors
-@BaronGreenback@Bond-009@EraYaN@LukePulverenti@cvium@AnaMarijaKarcas@it15-2019@hawken93
-656 lines (557 sloc)  26.2 KB
-
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -344,7 +313,7 @@ namespace Rssdp.Infrastructure
             return _Devices.Union(_Devices.SelectManyRecursive<SsdpDevice>((d) => d.Devices));
         }
 
-        private void SendDeviceSearchResponses(
+        private async void SendDeviceSearchResponses(
             SsdpDevice device,
             IPEndPoint endPoint,
             IPAddress receivedOnlocalIpAddress,
@@ -353,16 +322,16 @@ namespace Rssdp.Infrastructure
             bool isRootDevice = (device as SsdpRootDevice) != null;
             if (isRootDevice)
             {
-                SendSearchResponse(SsdpConstants.UpnpDeviceTypeRootDevice, device, GetUsn(device.Udn, SsdpConstants.UpnpDeviceTypeRootDevice), endPoint, receivedOnlocalIpAddress, cancellationToken);
+                await SendSearchResponse(SsdpConstants.UpnpDeviceTypeRootDevice, device, GetUsn(device.Udn, SsdpConstants.UpnpDeviceTypeRootDevice), endPoint, receivedOnlocalIpAddress, cancellationToken);
                 if (this.SupportPnpRootDevice)
                 {
-                    SendSearchResponse(SsdpConstants.PnpDeviceTypeRootDevice, device, GetUsn(device.Udn, SsdpConstants.PnpDeviceTypeRootDevice), endPoint, receivedOnlocalIpAddress, cancellationToken);
+                    await SendSearchResponse(SsdpConstants.PnpDeviceTypeRootDevice, device, GetUsn(device.Udn, SsdpConstants.PnpDeviceTypeRootDevice), endPoint, receivedOnlocalIpAddress, cancellationToken);
                 }
             }
 
-            SendSearchResponse(device.Udn, device, device.Udn, endPoint, receivedOnlocalIpAddress, cancellationToken);
+            await SendSearchResponse(device.Udn, device, device.Udn, endPoint, receivedOnlocalIpAddress, cancellationToken);
 
-            SendSearchResponse(device.FullDeviceType, device, GetUsn(device.Udn, device.FullDeviceType), endPoint, receivedOnlocalIpAddress, cancellationToken);
+            await SendSearchResponse(device.FullDeviceType, device, GetUsn(device.Udn, device.FullDeviceType), endPoint, receivedOnlocalIpAddress, cancellationToken);
         }
 
         private string GetUsn(string udn, string fullDeviceType)
@@ -370,7 +339,7 @@ namespace Rssdp.Infrastructure
             return String.Format(CultureInfo.InvariantCulture, "{0}::{1}", udn, fullDeviceType);
         }
 
-        private async SendSearchResponse(
+        public async Task SendSearchResponse(
             string searchTarget,
             SsdpDevice device,
             string uniqueServiceName,

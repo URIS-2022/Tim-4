@@ -5,7 +5,7 @@ using System;
 namespace MediaBrowser.Model.Session
 {
     [Flags]
-    public enum TranscodeReason
+    public enum TranscodeReasons
     {
         // Primary
         ContainerNotSupported = 1 << 0,

@@ -123,7 +123,7 @@ namespace Jellyfin.Server.Implementations.Users
         }
 
 #nullable disable
-        private class SerializablePasswordReset : PasswordPinCreationResult
+        private sealed class SerializablePasswordReset : PasswordPinCreationResult
         {
             public string Pin { get; set; }
 

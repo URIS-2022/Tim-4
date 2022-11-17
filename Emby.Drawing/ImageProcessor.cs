@@ -225,12 +225,11 @@ namespace Emby.Drawing
             }
 
             var format = clientSupportedFormats.FirstOrDefault();
-            if (format != null && serverFormats.Contains(format))
+            if (serverFormats.Contains(format))
             {
                 return format;
             }
 
-            // We should never actually get here
             return ImageFormat.Jpg;
         }
 

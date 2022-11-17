@@ -615,7 +615,7 @@ namespace Emby.Server.Implementations.IO
         }
 
         /// <inheritdoc />
-        public virtual IEnumerable<FileSystemMetadata> GetFiles(string path, IReadOnlyList<string>? extensions, bool enableCaseSensitiveExtensions, bool recursive = false)
+        public virtual IEnumerable<FileSystemMetadata> GetFiles(string path, IReadOnlyList<string>? extensions, bool enableCaseSensitiveExtensions, bool recursive)
         {
             var enumerationOptions = GetEnumerationOptions(recursive);
 
